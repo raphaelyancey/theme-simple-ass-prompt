@@ -55,9 +55,9 @@ end
 # Print current user
 function __simple_ass_prompt_get_user -d "Print the user"
   if test $USER = 'root'
-    set_color red
+    set_color -o red
   else
-    set_color d75f00
+    set_color -o d75f00
   end
   printf '%s' (whoami)
 end
@@ -66,16 +66,16 @@ end
 function __simple_ass_prompt_get_host -d "Get Hostname"
   if test $SSH_TTY
     tput bold
-    set_color red
+    set_color -o red
   else
-    set_color af8700
+    set_color -o blue
   end
   printf '%s' (hostname|cut -d . -f 1)
 end
 
 # Get Project Working Directory
 function __simple_ass_prompt_pwd -d "Get PWD"
-  set_color $fish_color_cwd
+  set_color -o $fish_color_cwd
   printf '%s ' (prompt_pwd)
 end
 
@@ -86,12 +86,12 @@ function fish_prompt
   # Logged in user
   __simple_ass_prompt_get_user
   set_color normal
-  printf ' at '
+  printf '@'
 
   # Machine logged in to
   __simple_ass_prompt_get_host
   set_color normal
-  printf ' in '
+  printf ':'
 
   # Path
   __simple_ass_prompt_pwd
@@ -101,7 +101,6 @@ function fish_prompt
   __simple_ass_prompt_git
 
   # Line 2
-  echo
   if test -e "Cargo.toml"
     printf "(rust:%s) " (set_color red)(rustup show | tail -n 3 | head -n 1 |  cut -d '-' -f 1)(set_color normal)
   end
@@ -114,6 +113,6 @@ function fish_prompt
     set_color red
   end
 
-  printf '↪ '
+  printf '# '
   set_color normal
 end
